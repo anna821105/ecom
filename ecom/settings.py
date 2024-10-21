@@ -92,9 +92,9 @@ DATABASES = {
         'NAME': 'railway',
         'USER': 'postgres',
         #'PASSWORD': os.environ.get('DB_PASSWORD_YO'),
-        'PASSWORD':'dAJHVfamdbRPkZRZegAUPGoVLLKKWFyy',
-        'HOST': 'junction.proxy.rlwy.net',
-        'PORT': '24350',
+        'PASSWORD':'kHZyCAJwfGQeNgyHGfxThqoxWkgXuGSb',
+        'HOST': 'autorack.proxy.rlwy.net',
+        'PORT': '36350',
     },
 }
 
