@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+        <div class="container">
+            <div class="row">
+                <center>
+                    <div class="col-8">
+                      <br>
+                      <h3>Shipped Items</h3>
+                      <br>
+                      <table class="table table-striped table-hover ">
+                          <thead class="table-dark">
+                            <tr>
+                              <th scope="col">Order</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Customer Email</th>
+                              <th scope="col">Date Shipped</th>
+                              <th scope="col">Shipping status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              {% for item in orders %}
+                              <br>
+                              <br>
+                            <tr>
+                              <td><a href="{% url 'orders' item.id %}">{{item.id}}</a></td>
+                              <td>${{item.amount_paid}}</td>
+                              <td>{{item.email}}</td>
+                              <td>{{item.date_ordered}}</td>
+                              <td>
+                                <form method="POST">
+                                  {% csrf_token %}
+                                  <!--點擊按鈕後，表單會提交，並將該訂單標記為未發貨-->
+                                  <input type="hidden" name="shipping_status" value="false"> <!--隱藏欄位（hidden fields）-->
+                                  <input type="hidden" name="num" value="{{item.id}}">
+                                  <button type="submit" class="btn btn-danger btn-sm">Mark Unshipped</button>
+                                </form>
+                              </td>
+                            </tr>
+                              {% endfor %}
+                          </tbody>
+                        </table>
+                    </div>
+                </center>
+            </div>
+        </div>
+        <br>
+        <br>
+
+
+
+
+
+
+
+
+{% endblock %}

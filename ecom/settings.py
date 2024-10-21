@@ -88,20 +88,17 @@ WSGI_APPLICATION = 'ecom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.postgresql',
-        'NAME':'railway',
-        'USER':'postgres',
-        'PASSWORD':os.environ.get('DB_PASSWORD_YO'),
-        'HOST':'postgres.railway.internal',
-        'PORT':'5432',
-        'OPTIONS': {
-        'client_encoding': 'UTF8',
-    
-    },    
-          
-    
-        }
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        #'PASSWORD': os.environ.get('DB_PASSWORD_YO'),
+        'PASSWORD':'dAJHVfamdbRPkZRZegAUPGoVLLKKWFyy',
+        'HOST': 'junction.proxy.rlwy.net',
+        'PORT': '24350',
+    },
+}
+
+
 
 
 

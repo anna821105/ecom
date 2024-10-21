@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+ <!-- Header-->
+        <header class="bg-success py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Login</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Log In To Your Account !!!!!!</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="row">
+                <center>
+                    <div class="col-4">
+                        <br>
+                        <form method="POST" action="{% url 'login' %}">  <!-- 表單使用 POST 請求提交數據。
+                            這種方法通常用於傳遞敏感或較大量的數據，例如登入資訊、註冊資料等密-->
+                           <!--防止跨站請求偽造（CSRF，Cross-Site Request Forgery）攻擊的一個標籤。
+                            當您在表單中使用 POST 方法時，這個標籤可以提供一個唯一的令牌，用於驗證請求是否來自可信的來源。-->
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="username" placeholder="Enter your Username">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="Enter your Password">
+                            </div>                          
+                            <br>
+                            <button type="submit" class="btn btn-secondary">Login</button>
+                        </form>                    
+                    </div>
+                </center>
+            </div>
+        </div>
+        <br>
+        <br> 
+        <br>
+
+
+{% endblock%}
