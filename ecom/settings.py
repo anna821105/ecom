@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+#Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load our envirment variables
@@ -33,7 +33,8 @@ SECRET_KEY = 'django-insecure-jr&#aqy9m(_g5@#ym594k$az6x160ib%z(n3%kzlvcx1_^yuq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ecom-production-c4a7.up.railway.app','https://ecom-production-c4a7.up.railway.app']
+CSRF_TRUSTED_ORIGINS =['https://ecom-production-c4a7.up.railway.app']
 
 
 
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'payment',
+    #'whitenoise.runserver_nostactic',----通常是因为你在 Django 项目中配置了 whitenoise.runserver_nostatic，
+    # 但是 whitenoise 版本不支持或没有正确安装
 ]
 
 MIDDLEWARE = [
@@ -58,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #pip install whitenoise
 ]
 
 ROOT_URLCONF = 'ecom.urls'
@@ -91,10 +95,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        #'PASSWORD': os.environ.get('DB_PASSWORD_YO'),
-        'PASSWORD':'kHZyCAJwfGQeNgyHGfxThqoxWkgXuGSb',
-        'HOST': 'autorack.proxy.rlwy.net',
-        'PORT': '36350',
+        'PASSWORD': os.environ.get('DB_PASSWORD_YO'),
+        #'PASSWORD':'kHZyCAJwfGQeNgyHGfxThqoxWkgXuGSb',
+        'HOST': 'autorack.proxy.rlwy.net', #---注意為Deployments的網址
+        'PORT': '36350', #Settings，Public Networking中 autorack.proxy.rlwy.net:36350
+
     },
 }
 
@@ -144,6 +149,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS =['static/']
+
+# white noise static stuff
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT= os.path.join(BASE_DIR,'media')
