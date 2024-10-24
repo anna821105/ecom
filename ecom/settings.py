@@ -33,8 +33,8 @@ SECRET_KEY = 'django-insecure-jr&#aqy9m(_g5@#ym594k$az6x160ib%z(n3%kzlvcx1_^yuq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ecom-production-a670.up.railway.app','https']
-CSRF_TRUSTED_ORIGINS =[]
+ALLOWED_HOSTS = ['ecom-production-a670.up.railway.app','https://ecom-production-a670.up.railway.app']
+CSRF_TRUSTED_ORIGINS =['https://ecom-production-a670.up.railway.app']
 
 
 
@@ -95,8 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': os.environ.get('DB_PASSWORD_YO'),
-        #'PASSWORD':'kHZyCAJwfGQeNgyHGfxThqoxWkgXuGSb',
+        'PASSWORD': os.environ['DB_PASSWORD_YO'],
         'HOST': 'autorack.proxy.rlwy.net', #---注意為Deployments的網址
         'PORT': '36350', #Settings，Public Networking中 autorack.proxy.rlwy.net:36350
 
