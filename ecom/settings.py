@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-jr&#aqy9m(_g5@#ym594k$az6x160ib%z(n3%kzlvcx1_^yuq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['eecom-production-df18.up.railway.app','https://ecom-production-df18.up.railway.app']
+ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','https://ecom-production-df18.up.railway.app']
 CSRF_TRUSTED_ORIGINS =['https://ecom-production-df18.up.railway.app']
 
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'payment',
+    'whitenoise.runserver_nostatic'
     #'whitenoise.runserver_nostactic',----通常是因为你在 Django 项目中配置了 whitenoise.runserver_nostatic，
     # 但是 whitenoise 版本不支持或没有正确安装
 ]
