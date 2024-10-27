@@ -17,6 +17,8 @@ from dotenv import load_dotenv
 
 
 
+
+
 #Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,6 +37,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','https://ecom-production-df18.up.railway.app']
 CSRF_TRUSTED_ORIGINS =['https://ecom-production-df18.up.railway.app']
+
+
+
 
 
 
