@@ -35,8 +35,12 @@ SECRET_KEY = 'django-insecure-jr&#aqy9m(_g5@#ym594k$az6x160ib%z(n3%kzlvcx1_^yuq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','https://ecom-production-df18.up.railway.app']
-CSRF_TRUSTED_ORIGINS =['https://ecom-production-df18.up.railway.app']
+#ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','https://ecom-production-df18.up.railway.app']
+#CSRF_TRUSTED_ORIGINS =['https://ecom-production-df18.up.railway.app']
+#用來指定允許的主機名或 IP 地址，只有列在此清單中的主機才可以訪問應用
+ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app', '127.0.0.1']
+#主要作用是允許來自不同網域的可信請求
+CSRF_TRUSTED_ORIGINS = ['https://ecom-production-df18.up.railway.app','https://127.0.0.1']
 
 
 
