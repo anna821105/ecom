@@ -15,10 +15,6 @@ import os
 from dotenv import load_dotenv
 
 
-
-
-
-
 #Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -58,9 +54,8 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'payment',
-    'whitenoise.runserver_nostatic'
-    #'whitenoise.runserver_nostactic',----通常是因为你在 Django 项目中配置了 whitenoise.runserver_nostatic，
-    # 但是 whitenoise 版本不支持或没有正确安装
+    'whitenoise.runserver_nostatic',  #'whitenoise.runserver_nostactic',----通常是因为你在 Django 项目中配置了 whitenoise.runserver_nostatic，
+    'paypal.standard.ipn', 
 ]
 
 MIDDLEWARE = [
@@ -172,4 +167,9 @@ MEDIA_ROOT= os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+#add paypal settings
+# set sandbox to true
+PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'zerobusiness@gamil.com' # Business Sandbox account
 
