@@ -19,7 +19,7 @@ class OrderItemInline(admin.StackedInline):
 class OrderAdmin(admin.ModelAdmin):
     model = Order
     readonly_fields = ["date_ordered"] #這行代碼表示在 Django 管理後台中，date_ordered 欄位將設為只讀，這意味著後台管理員無法修改該欄位的值。
-    fields = ["user","full_name","email","shipping_address","amount_paid","date_ordered","shipped","date_shipped"]
+    fields = ["user","full_name","email","shipping_address","amount_paid","date_ordered","shipped","date_shipped","invoice","paid"]
     inlines =[OrderItemInline]
     
 # Unregister Order Model

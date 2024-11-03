@@ -220,19 +220,29 @@ def billing_info(request):
         my_shipping = request.POST
         request.session['my_shipping'] = my_shipping
         
+        # Gether Order info
+        full_name = my_shipping['Shipping_full_name']
+        email = my_shipping['Shipping_email']
+        # Create Shipping Address from session info
+        shipping_address = f"{my_shipping['Shipping_address1']}\n{my_shipping['Shipping_address2']}\n{my_shipping['Shipping_city']}\n{my_shipping['Shipping_state']}\n{my_shipping['Shipping_zipcode']}\n{my_shipping['Shipping_country']}"   
+        amount_paid = totals
+        
         # Get the host
         host = request.get_host()
+        #Create Invoice number
+        my_Invoice = str(uuid.uuid4())
+      
         #Create Paypal Form Dictionary
         paypal_dict = {
             'business' : settings.PAYPAL_RECEIVER_EMAIL,
             'amount' : totals,
             'item_name':'Book Order',
             'no_shipping':'2',
-            'invoice': str(uuid.uuid4()),
-            'currency_code':'USD',#EUR for Euros
-            'notify_url':'https://{}{}'.format(host,reverse("paypal-ipn")),
-            'return_url':'https://{}{}'.format(host,reverse("payment_success")),
-            'cancel_return':'https://{}{}'.format(host,reverse("payment_failed")),
+            'invoice': my_Invoice, #決定是否需要收集運送地址。值為 '2' 表示不要求收集運送地址
+            'currency_code':'USD',#貨幣代碼
+            'notify_url':'https://{}{}'.format(host,reverse("paypal-ipn")), #PayPal 付款完成後回調的通知 URL。使用 host 和 reverse("paypal-ipn") 生成完整的 URL，以確保使用網站的完整主機地址
+            'return_url':'https://{}{}'.format(host,reverse("payment_success")),#顧客完成付款後將被導向的 URL，表示表示當顧客成功付款後會導向此地址。
+            'cancel_return':'https://{}{}'.format(host,reverse("payment_failed")),#顧客在付款流程中取消付款時的回調 URL，表示表示當顧客取消付款後會導向此地址。
         }
         #Create actual paypal button 
         paypal_form = PayPalPaymentsForm(initial=paypal_dict)
@@ -240,11 +250,73 @@ def billing_info(request):
         if request.user.is_authenticated :
             # Get Billing Form
             billing_form = PaymentForm()
-            return render(request,"payment/billing_info.html",{"paypal_form":paypal_form,"cart_products": cart_products,"quantities":quantities,"totals":totals,"shipping_info":request.POST,"billing_form":billing_form })
-        else: 
-            billing_form = PaymentForm()
-            return render(request,"payment/billing_info.html",{"paypal_form":paypal_form,"cart_products": cart_products,"quantities":quantities,"totals":totals,"shipping_info":request.POST,"billing_form":billing_form })
+
+            # logged in----如果用戶已登入，將訂單綁定到該用戶
+            user = request.user
+            #創建訂單
+            create_order = Order(user=user,full_name=full_name, email= email,shipping_address=shipping_address,amount_paid=amount_paid,invoice=my_Invoice)
+            create_order.save()
             
+            # Get the order Id
+            order_id = create_order.id
+                # Get product Info
+            for product in cart_products():
+                # Get [product ID]
+                product_id = product.id
+                # Get [product price]
+                if product.is_sale:
+                    price = product.sale_price
+                else:
+                    price = product.price
+                
+                # Get [product quantity]
+                for key,value in quantities().items(): 
+                    if int(key) == product.id:
+                       # create order item
+                       create_order_item = OrderItem(order_id=order_id,product_id=product_id,user=user,quantity=value,price=price)
+                       create_order_item.save() 
+                    
+                        
+                # Delete cart from Datebase(old_cart field)
+                current_user =Profile.objects.filter(user__id=request.user.id)
+                # Delet shopping cart datebase (old_cart field)
+                current_user.update(old_cart="")
+
+                
+                return render(request,"payment/billing_info.html",{"paypal_form":paypal_form,"cart_products": cart_products,"quantities":quantities,"totals":totals,"shipping_info":request.POST,"billing_form":billing_form })
+        
+        else:
+            # Not logged in
+            # Create Order
+            create_order = Order(full_name=full_name, email= email,shipping_address=shipping_address,amount_paid=amount_paid,invoice=my_Invoice)
+            create_order.save()
+            
+            # Add order Items
+            # Get the order Id
+            order_id = create_order.id
+            
+            # Get product Info
+            for product in cart_products():
+                # Get product ID
+                product_id = product.id
+                # Get product price
+                if product.is_saled:
+                    price = product.sale_price
+                else:
+                    price = product.price
+                
+                # Get product quantity
+                for key,value in quantities().items(): 
+                    if int(key) == product.id:
+                       # create order item
+                       create_order_item = OrderItem(order_id=order_id,product_id=product_id,quantity=value,price=price )
+                       create_order_item.save()
+                       
+                       
+        # Not logged in
+        billing_form = PaymentForm()
+        return render(request,"payment/billing_info.html",{"paypal_form":paypal_form,"cart_products": cart_products,"quantities":quantities,"totals":totals,"shipping_info":request.POST,"billing_form":billing_form })
+                                  
         #shipping_form = request.POST
         #return render(request,"payment/billing_info.html",{"cart_products": cart_products,"quantities":quantities,"totals":totals,"shipping_form":shipping_form})
     else:
@@ -278,6 +350,20 @@ def checkout(request):
 
 
 def payment_success(request):
+    # Delete the browser cart
+    #First GET the cart
+    # Get the cart
+    cart = Cart(request)
+    cart_products = cart.get_prods
+    quantities = cart.get_quants
+    totals = cart.cart_total()
+    
+    # Delete our cart
+    for key in list(request.session.keys()):
+        if key =="session_key":
+            # Delete the key
+            del request.session[key]
+    
     return render(request,'payment/payment_success.html',{})
 
 

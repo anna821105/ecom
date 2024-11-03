@@ -46,7 +46,7 @@ def create_shipping(sender,instance,created,**kwargs):
 # Automate the profile thing
 post_save.connect(create_shipping,sender=User)
  
- 
+
    
 # Create Order Model 訂單
 class Order(models.Model):
@@ -59,6 +59,10 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     shipped = models.BooleanField(default=False) #默認值是未發貨
     date_shipped = models.DateTimeField(blank=True,null=True)#發貨日期，允許為空（blank=True, null=True），當 shipped 設為 True 時可以用來記錄發貨日期。
+    #Paypal Invoice and paid T/F
+    invoice = models.CharField(max_length=250,null=True,blank=True)
+    paid = models.BooleanField(default=False)
+    
     
     def __str__(self):
         return f'Order - {str(self.id)}'
