@@ -31,13 +31,13 @@ SECRET_KEY = 'django-insecure-jr&#aqy9m(_g5@#ym594k$az6x160ib%z(n3%kzlvcx1_^yuq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','https://ecom-production-df18.up.railway.app']
-#CSRF_TRUSTED_ORIGINS =['https://ecom-production-df18.up.railway.app']
+ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','127.0.0.1','ecom-production-df18.up.railway.app']
+CSRF_TRUSTED_ORIGINS =['https://ecom-production-df18.up.railway.app','https://127.0.0.1']
 
 #用來指定允許的主機名或 IP 地址，只有列在此清單中的主機才可以訪問應用
-ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','127.0.0.1','300b-123-241-125-100.ngrok-free.app']
+#ALLOWED_HOSTS = ['ecom-production-df18.up.railway.app','127.0.0.1','300b-123-241-125-100.ngrok-free.app']
 #主要作用是允許來自不同網域的可信請求
-CSRF_TRUSTED_ORIGINS = ['https://ecom-production-df18.up.railway.app','https://127.0.0.1','https://300b-123-241-125-100.ngrok-free.app']
+#CSRF_TRUSTED_ORIGINS = ['https://ecom-production-df18.up.railway.app','https://127.0.0.1','https://300b-123-241-125-100.ngrok-free.app']
 
 
 
@@ -102,8 +102,8 @@ DATABASES = {
         'NAME': 'railway',
         'USER': 'postgres',
         'PASSWORD': os.environ['DB_PASSWORD_YO'],
-        'HOST': 'autorack.proxy.rlwy.net', #---注意為Deployments的網址
-        'PORT': '36350', #Settings，Public Networking中 autorack.proxy.rlwy.net:36350
+        'HOST': 'roundhouse.proxy.rlwy.net', #---注意為Deployments的網址
+        'PORT': '54374', #Settings，Public Networking中oundhouse.proxy.rlwy.net:54374
 
     },
 }
